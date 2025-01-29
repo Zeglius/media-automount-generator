@@ -12,6 +12,7 @@ declare -r UNITS_DIR=${1:?}
 declare -r MOUNTDIR_PARENT="/media"
 declare -ar CONF_DIRS=(
     /etc/automounts.d
+    /usr/local/lib/automounts.d
     /usr/lib/automounts.d
 )
 
