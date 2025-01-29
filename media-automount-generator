@@ -1,0 +1,96 @@
+#!/usr/bin/env bash
+
+#### region Constants, utils and error handling
+
+set -euo pipefail
+if [[ ${DEBUG:-0} -eq 1 ]]; then
+    export PS4='+(${BASH_SOURCE}:${LINENO}): ${FUNCNAME[0]:+${FUNCNAME[0]}(): }'
+    set -x
+fi
+
+declare -r UNITS_DIR=${1:?}
+declare -r MOUNTDIR_PARENT="/media"
+declare -ar CONF_DIRS=(
+    /etc/automounts.d
+    /usr/lib/automounts.d
+)
+
+log() {
+    local loglevel=${loglevel:-info}
+    if [[ ${SYSTEMD_SCOPE:-} =~ ^user$|^system$ ]]; then
+        echo "$*" | systemd-cat -p "${loglevel}" -t "media-automount-generator"
+    else
+        echo >&2 "[${loglevel^^}]: $*"
+    fi
+}
+
+die() {
+    loglevel=err log "$@"
+    exit 1
+}
+
+_on_err() {
+    loglevel=err log "Something went wrong"
+    exit 0
+}
+
+trap '_on_err' ERR
+
+#### endregion
+
+#############################################################
+
+# Dont run if we are in a container or a
+if [[ -n ${SYSTEMD_VIRTUALIZATION:-} ]]; then
+    log "System is running in ${SYSTEMD_VIRTUALIZATION}, skipping..."
+    exit 0
+fi
+
+# Iterate in device
+for dev in $(lsblk -n --shell --output PATH --filter 'TYPE == "part"'); do
+    # Check if the device is already set for mounting, and if is, skip it
+    if findmnt "$dev" &>/dev/null; then
+        continue
+    fi
+
+    # Check if is removable, and if so, skip it
+    parent_dev=$(lsblk -n --inverse --output=NAME --filter='TYPE == "disk"' "$dev" | tail -1)
+    if [[ $(</sys/block/"$parent_dev"/removable) -eq 1 ]]; then
+        continue
+    fi
+
+    # Check if we have a config for the partition type
+    fstype=$(lsblk -n --output FSTYPE "$dev")
+    conf_file=""
+    [[ -z $fstype ]] && continue
+    for conf_dir in "${CONF_DIRS[@]}"; do
+        [[ ! -f ${conf_dir}/${fstype} ]] && continue
+        conf_file=${conf_dir}/${fstype}
+        break
+    done
+    if [[ -z $conf_file ]]; then
+        log "$dev: Config for filesystem $fstype was not found"
+        continue
+    elif [[ $(realpath "$conf_file") == /dev/null ]]; then # When the file is a symlink pointing at /dev/null
+        log "$dev: Masking conf file $conf_file pointing at /dev/null. Skipping..."
+        continue
+    elif [[ ! -s $(realpath "$conf_file") ]]; then # When the file contents are empty
+        :
+    fi
+
+    # Load the config file
+    unset -v FSOPTIONS
+    # shellcheck disable=SC1090
+    source "$conf_file"
+
+    # Write the unit file
+    What=$(lsblk -n --output UUID "$dev")
+    Where=${MOUNTDIR_PARENT%%/}/$(lsblk -n --output UUID "$dev") # Get device UUID
+    cat <<EOF >"$UNITS_DIR"/"$(systemd-escape -p --suffix=mount "$Where")"
+[Mount]
+What=${What:?}
+Where=${Where:?}
+Type=${fstype:?}
+${FSOPTIONS:+Options=${FSOPTIONS}}
+EOF
+done
