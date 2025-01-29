@@ -7,3 +7,6 @@ test:
     rm -rf ./_test
     mkdir -p ./_test
     sudo DEBUG=${DEBUG:-1} {{ BIN }} ./_test
+
+install:
+    sudo cp -rT automounts.d /etc/automounts.d
