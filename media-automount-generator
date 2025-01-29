@@ -75,8 +75,6 @@ for dev in $(lsblk -n --shell --output PATH --filter 'TYPE == "part"'); do
     elif [[ $(realpath "$conf_file") == /dev/null ]]; then # When the file is a symlink pointing at /dev/null
         log "$dev: Masking conf file $conf_file pointing at /dev/null. Skipping..."
         continue
-    elif [[ ! -s $(realpath "$conf_file") ]]; then # When the file contents are empty
-        :
     fi
 
     # Load the config file
