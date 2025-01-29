@@ -6,4 +6,4 @@ BIN := "./media-automount-generator"
 test:
     rm -rf ./_test
     mkdir -p ./_test
-    sudo DEBUG=1 {{ BIN }} ./_test
+    sudo DEBUG=${DEBUG:-1} {{ BIN }} ./_test
