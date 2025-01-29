@@ -86,9 +86,15 @@ for dev in $(lsblk -n --shell --output PATH --filter 'TYPE == "part"'); do
     source "$conf_file"
 
     # Write the unit file
-    What=$(lsblk -n --output UUID "$dev")
-    Where=${MOUNTDIR_PARENT%%/}/$(lsblk -n --output UUID "$dev") # Get device UUID
+    dev_uuid="$(lsblk -n --output UUID "$dev")"
+    What=$dev_uuid
+    Where=${MOUNTDIR_PARENT%%/}/$dev_uuid # Get device UUID
     cat <<EOF >"$UNITS_DIR"/"$(systemd-escape -p --suffix=mount "$Where")"
+[Unit]
+SourcePath=${conf_file}
+Before=local-fs.target
+After=blockdev@$(systemd-escape -p /dev/disk/by-uuid/"$dev_uuid").service
+
 [Mount]
 What=${What:?}
 Where=${Where:?}
