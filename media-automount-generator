@@ -67,7 +67,7 @@ for dev in $(lsblk -n --shell --output PATH --filter 'TYPE == "part"'); do
     conf_file=""
     [[ -z $fstype ]] && continue
     for conf_dir in "${CONF_DIRS[@]}"; do
-        [[ ! -f ${conf_dir}/${fstype} ]] && continue
+        ! readlink >/dev/null -e "${conf_dir}"/"${fstype}" && continue
         conf_file=${conf_dir}/${fstype}
         log "$dev: Found config file at $conf_file"
         break
