@@ -18,6 +18,18 @@ For Fedora Silverblue/Kinoite and Universal Blue:
 DESTDIR=/usr/local just install
 ```
 
+## Uninstall
+
+```shell
+just uninstall
+```
+
+For Fedora Silverblue/Kinoite and Universal Blue:
+
+```shell
+DESTDIR=/usr/local just uninstall
+```
+
 ## FAQ
 
 ### What filesystems does this thing support?
