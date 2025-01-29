@@ -4,5 +4,6 @@ BIN := "./media-automount-generator"
     just --list
 
 test:
+    rm -rf ./_test
     mkdir -p ./_test
     sudo DEBUG=1 {{ BIN }} ./_test
