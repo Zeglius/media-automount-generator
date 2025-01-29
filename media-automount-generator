@@ -51,12 +51,14 @@ fi
 for dev in $(lsblk -n --shell --output PATH --filter 'TYPE == "part"'); do
     # Check if the device is already set for mounting, and if is, skip it
     if findmnt "$dev" &>/dev/null; then
+        log "$dev: device is already mounted. Skipping..."
         continue
     fi
 
     # Check if is removable, and if so, skip it
     parent_dev=$(lsblk -n --inverse --output=NAME --filter='TYPE == "disk"' "$dev" | tail -1)
     if [[ $(</sys/block/"$parent_dev"/removable) -eq 1 ]]; then
+        log "$dev: device is removable. Skipping..."
         continue
     fi
 
@@ -67,6 +69,7 @@ for dev in $(lsblk -n --shell --output PATH --filter 'TYPE == "part"'); do
     for conf_dir in "${CONF_DIRS[@]}"; do
         [[ ! -f ${conf_dir}/${fstype} ]] && continue
         conf_file=${conf_dir}/${fstype}
+        log "$dev: Found config file at $conf_file"
         break
     done
     if [[ -z $conf_file ]]; then
