@@ -96,3 +96,5 @@ Type=${fstype:?}
 ${FSOPTIONS:+Options=${FSOPTIONS}}
 EOF
 done
+
+log "Unit files were generated. Stopping process..."
