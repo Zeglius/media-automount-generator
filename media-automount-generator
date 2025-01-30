@@ -89,7 +89,8 @@ for dev in $(lsblk -n --shell --output PATH --filter 'TYPE == "part"'); do
     dev_uuid="$(lsblk -n --output UUID "$dev")"
     What="UUID=$dev_uuid"
     Where=${MOUNTDIR_PARENT%%/}/$dev_uuid # Get device UUID
-    cat <<EOF >"$UNITS_DIR"/"$(systemd-escape -p --suffix=mount "$Where")"
+    unit_file_path="$UNITS_DIR"/"$(systemd-escape -p --suffix=mount "$Where")"
+    cat <<EOF >"$unit_file_path"
 [Unit]
 SourcePath=${conf_file}
 Before=local-fs.target
@@ -101,6 +102,9 @@ Where=${Where:?}
 Type=${fstype:?}
 ${FSOPTIONS:+Options=${FSOPTIONS}}
 EOF
+    if [[ -s $unit_file_path ]]; then
+        log "$dev: Generated mount unit file at $unit_file_path"
+    fi
 done
 
 log "Unit files were generated. Stopping process..."
