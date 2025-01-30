@@ -87,7 +87,7 @@ for dev in $(lsblk -n --shell --output PATH --filter 'TYPE == "part"'); do
 
     # Write the unit file
     dev_uuid="$(lsblk -n --output UUID "$dev")"
-    What=$dev_uuid
+    What="UUID=$dev_uuid"
     Where=${MOUNTDIR_PARENT%%/}/$dev_uuid # Get device UUID
     cat <<EOF >"$UNITS_DIR"/"$(systemd-escape -p --suffix=mount "$Where")"
 [Unit]
