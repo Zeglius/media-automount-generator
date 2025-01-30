@@ -41,13 +41,13 @@ trap '_on_err' ERR
 
 #############################################################
 
-# Dont run if we are in a container or a
+# Dont run if we are in a container or a virtual machine
 if [[ -n ${SYSTEMD_VIRTUALIZATION:-} ]]; then
     log "System is running in ${SYSTEMD_VIRTUALIZATION}, skipping..."
     exit 0
 fi
 
-# Iterate in device
+# Iterate in a list of partitions
 for dev in $(lsblk -n --shell --output PATH --filter 'TYPE == "part"'); do
     # Check if the device is already set for mounting, and if is, skip it
     if findmnt "$dev" &>/dev/null; then

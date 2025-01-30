@@ -48,4 +48,4 @@ Create a symbolic link file pointing at `/dev/null` in `/etc/automounts.d/<FSTYP
 
 By default, this generator ignores certain partitions (like NTFS) because
 they don't work well with Linux.
-Could it be as well that a filesystem
+Could it be as well that a filesystem is not configured.
