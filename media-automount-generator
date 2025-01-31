@@ -52,7 +52,8 @@ get_file_from_conf() {
     local result
 
     for conf_dir in "${CONF_DIRS[@]}"; do
-        if [[ -r "${result:=${conf_dir}/${file_name}}" ]]; then
+        result=${conf_dir}/${file_name}
+        if [[ -r "${result}" ]]; then
             echo "$result"
             return 0
         fi
