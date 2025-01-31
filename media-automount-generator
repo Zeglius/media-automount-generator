@@ -94,7 +94,6 @@ for dev in $(lsblk -n --shell --output PATH --filter 'TYPE == "part"'); do
 [Unit]
 SourcePath=${conf_file}
 Before=local-fs.target
-After=blockdev@$(systemd-escape -p /dev/disk/by-uuid/"$dev_uuid").service
 
 [Mount]
 What=${What:?}
@@ -102,9 +101,14 @@ Where=${Where:?}
 Type=${fstype:?}
 ${FSOPTIONS:+Options=${FSOPTIONS}}
 EOF
-    if [[ -s $unit_file_path ]]; then
-        log "$dev: Generated mount unit file at $unit_file_path"
+    if [[ ! -s $unit_file_path ]]; then
+        log "$dev: Generated mount unit file at $unit_file_path is empty. Skipping..."
+        continue
     fi
+    log "$dev: Generated mount unit file at $unit_file_path"
+    mkdir -p "${UNITS_DIR}"/local-fs.target.wants
+    ln -sr "$unit_file_path" "${UNITS_DIR}"/local-fs.target.wants/
+    log "$dev: Symlinked $unit_file_path to ${UNITS_DIR}/local-fs.target.wants/$(basename "$unit_file_path")"
 done
 
 log "Unit files were generated. Stopping process..."
