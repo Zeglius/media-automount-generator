@@ -71,6 +71,12 @@ if [[ -n ${SYSTEMD_VIRTUALIZATION:-} ]]; then
     exit 0
 fi
 
+# Check if generator is wanted to be enabled.
+# WARNING: This only should be used by the system admin and not the vendor.
+# WARNING: This file SHOULD NOT contain any configuration.
+# It is meant to be a global /dev/null symlink.
+global_conf_file=$(get_file_from_conf _all)
+
 # Iterate in a list of partitions
 for dev in $(lsblk -n --shell --output PATH --filter 'TYPE == "part"'); do
     # Check if the device is already set for mounting, and if is, skip it
@@ -89,7 +95,7 @@ for dev in $(lsblk -n --shell --output PATH --filter 'TYPE == "part"'); do
     # Check if we have a config for the partition type
     fstype=$(lsblk -n --output FSTYPE "$dev")
     [[ -z $fstype ]] && continue
-    conf_file=$(get_file_from_conf "$fstype")
+    conf_file=${global_conf_file:-$(get_file_from_conf "$fstype")}
     if [[ -z $conf_file ]]; then
         log "$dev: Config for filesystem $fstype was not found"
         continue
