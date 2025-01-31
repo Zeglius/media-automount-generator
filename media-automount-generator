@@ -101,7 +101,10 @@ for dev in $(lsblk -n --shell --output PATH --filter 'TYPE == "part"'); do
     # Load the config file
     unset -v FSOPTIONS
     # shellcheck disable=SC1090
-    source "$conf_file"
+    eval "$(
+        source "$conf_file" >/dev/null
+        echo "${FSOPTIONS@A}"
+    )"
 
     # Write the unit file
     dev_uuid="$(lsblk -n --output UUID "$dev")"
