@@ -10,6 +10,10 @@ fi
 
 declare -r UNITS_DIR=${1:?}
 declare -r MOUNTDIR_PARENT="/media"
+# Config files should be imported, first ones step over the others:
+#   - /etc/automounts.d
+#   - /usr/local/lib/automounts.d
+#   - /usr/lib/automounts.d
 declare -ar CONF_DIRS=(
     /etc/automounts.d
     /usr/local/lib/automounts.d
