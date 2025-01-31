@@ -39,6 +39,26 @@ _on_err() {
     exit 0
 }
 
+# Search for the first matching file path in one of the config directories.
+# Return an empty string if no matching file was found.
+#
+# Params:
+#   $1 - File name
+#
+# Returns:
+#   Path of the file. Empty string if none found
+get_file_from_conf() {
+    local file_name=${1:?}
+    local result
+
+    for conf_dir in "${CONF_DIRS[@]}"; do
+        if [[ -r "${result:=${conf_dir}/${file_name}}" ]]; then
+            echo "$result"
+            return 0
+        fi
+    done
+}
+
 trap '_on_err' ERR
 
 #### endregion
@@ -68,14 +88,8 @@ for dev in $(lsblk -n --shell --output PATH --filter 'TYPE == "part"'); do
 
     # Check if we have a config for the partition type
     fstype=$(lsblk -n --output FSTYPE "$dev")
-    conf_file=""
     [[ -z $fstype ]] && continue
-    for conf_dir in "${CONF_DIRS[@]}"; do
-        [[ ! -r "${conf_dir}"/"${fstype}" ]] && continue
-        conf_file=${conf_dir}/${fstype}
-        log "$dev: Found config file at $conf_file"
-        break
-    done
+    conf_file=$(get_file_from_conf "$fstype")
     if [[ -z $conf_file ]]; then
         log "$dev: Config for filesystem $fstype was not found"
         continue
