@@ -32,17 +32,37 @@ DESTDIR=/usr/local just uninstall
 
 ## FAQ
 
+### Where are my partitions mounted?
+
+At `/media/<Partition UUID>`.
+
 ### What filesystems does this thing support?
 
 BTRFS and ext4 (by default).
 
-### How can I exclude a specific partition?
+## Configuration
+
+### How can I...
+
+#### ... exclude a specific partition?
 
 Add it to `/etc/fstab` with the `noauto` option.
 
-### How can I exclude a type of filesystem?
+#### ... exclude a type of filesystem?
 
-Create a symbolic link file pointing at `/dev/null` in `/etc/automounts.d/<FSTYPE>`
+Create a symbolic link pointing at `/dev/null` in `/etc/automounts.d/<FSTYPE>`
+
+```shell
+sudo ln -s /dev/null /etc/automounts.d/ntfs
+```
+
+#### ... deactivate it completely?
+
+Create a symbolic link pointing at `/dev/null` in `/etc/automounts.d/_all`
+
+```shell
+sudo ln -s /dev/null /etc/automounts.d/_all
+```
 
 ### Why my partition is not getting mounted?
 
