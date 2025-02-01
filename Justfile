@@ -1,5 +1,5 @@
 BIN := "./media-automount-generator"
-DESTDIR := env("DESTDIR", "/usr")
+export DESTDIR := env("DESTDIR", "/usr")
 
 @_default:
     just --list
@@ -10,9 +10,7 @@ test:
     sudo DEBUG=${DEBUG:-1} {{ BIN }} ./_test
 
 install:
-    sudo cp -rT automounts.d {{ DESTDIR }}/lib/automounts.d
-    sudo install -Dm755 {{ BIN }} {{ DESTDIR }}/lib/systemd/system-generators/{{ file_name(BIN) }}
+    ./install.sh install
 
 uninstall:
-    sudo rm -rf {{ DESTDIR }}/lib/automounts.d
-    sudo rm -f {{ DESTDIR }}/lib/systemd/system-generators/{{ file_name(BIN) }}
+    ./install.sh uninstall

@@ -5,7 +5,7 @@ In inspiration of [Ferk/udev-media-automount](https://github.com/Ferk/udev-media
 ## Installation
 
 ```shell
-just install
+./install.sh
 ```
 
 > **Note**
@@ -15,19 +15,19 @@ just install
 For Fedora Silverblue/Kinoite and Universal Blue:
 
 ```shell
-DESTDIR=/usr/local just install
+DESTDIR=/usr/local ./install.sh
 ```
 
 ## Uninstall
 
 ```shell
-just uninstall
+./install uninstall
 ```
 
 For Fedora Silverblue/Kinoite and Universal Blue:
 
 ```shell
-DESTDIR=/usr/local just uninstall
+DESTDIR=/usr/local ./install uninstall
 ```
 
 ## FAQ
