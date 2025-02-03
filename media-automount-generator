@@ -122,6 +122,8 @@ for dev in $(lsblk -n --shell --output PATH --filter 'TYPE == "part"'); do
 [Unit]
 SourcePath=${conf_file}
 Before=local-fs.target
+After=-.mount
+After=boot.mount
 
 [Mount]
 What=${What:?}
