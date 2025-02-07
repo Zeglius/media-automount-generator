@@ -9,7 +9,7 @@ if [[ ${DEBUG:-0} -eq 1 ]]; then
 fi
 
 declare -r UNITS_DIR=${1:?}
-declare -r MOUNTDIR_PARENT="/media"
+declare -r MOUNTDIR_PARENT="/media/media-automount"
 # Config files should be imported, first ones step over the others:
 #   - /etc/automounts.d
 #   - /usr/local/lib/automounts.d
