@@ -14,12 +14,12 @@ ACTION=${1:-install}
 
 case $ACTION in
 install)
-    $SUDOIF cp -rT ./automounts.d "$DESTDIR"/lib/automounts.d
+    $SUDOIF cp -rT ./media-automount.d "$DESTDIR"/lib/media-automount.d
     $SUDOIF install -Dm755 ./media-automount-generator "$DESTDIR"/lib/systemd/system-generators/media-automount-generator
     ;;
 
 uninstall)
-    $SUDOIF rm -rf "$DESTDIR"/lib/automounts.d
+    $SUDOIF rm -rf "$DESTDIR"/lib/media-automount.d
     $SUDOIF rm -f "$DESTDIR"/lib/systemd/system-generators/media-automount-generator
     ;;
 esac

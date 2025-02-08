@@ -53,7 +53,7 @@ Add it to `/etc/fstab` with the `noauto` option.
 Create a symbolic link pointing at `/dev/null` in `/etc/automounts.d/<FSTYPE>`
 
 ```shell
-sudo ln -s /dev/null /etc/automounts.d/ntfs
+sudo ln -s /dev/null /etc/media-automount.d/ntfs
 ```
 
 #### ... deactivate it completely?
@@ -61,7 +61,7 @@ sudo ln -s /dev/null /etc/automounts.d/ntfs
 Create a symbolic link pointing at `/dev/null` in `/etc/automounts.d/_all`
 
 ```shell
-sudo ln -s /dev/null /etc/automounts.d/_all
+sudo ln -s /dev/null /etc/media-automount.d/_all
 ```
 
 ### Why my partition is not getting mounted?
