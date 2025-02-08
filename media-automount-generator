@@ -47,12 +47,12 @@ _on_err() {
 #
 # Returns:
 #   Path of the file. Empty string if none found
-get_file_from_conf() {
+get_filesystem_conf() {
     local file_name=${1:?}
     local result
 
     for conf_dir in "${CONF_DIRS[@]}"; do
-        result=${conf_dir}/${file_name}
+        result=${conf_dir}/${file_name}.conf
         if [[ -r "${result}" ]]; then
             echo "$result"
             return 0
@@ -76,7 +76,7 @@ fi
 # WARNING: This only should be used by the system admin and not the vendor.
 # WARNING: This file SHOULD NOT contain any configuration.
 # It is meant to be a global /dev/null symlink.
-global_conf_file=$(get_file_from_conf _all)
+global_conf_file=$(get_filesystem_conf _all)
 
 # Iterate in a list of partitions
 for dev in $(lsblk -n --shell --output PATH --filter 'TYPE == "part"'); do
@@ -96,7 +96,7 @@ for dev in $(lsblk -n --shell --output PATH --filter 'TYPE == "part"'); do
     # Check if we have a config for the partition type
     fstype=$(lsblk -n --output FSTYPE "$dev")
     [[ -z $fstype ]] && continue
-    conf_file=${global_conf_file:-$(get_file_from_conf "$fstype")}
+    conf_file=${global_conf_file:-$(get_filesystem_conf "$fstype")}
     if [[ -z $conf_file ]]; then
         log "$dev: Config for filesystem $fstype was not found"
         continue

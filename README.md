@@ -53,12 +53,12 @@ in its correspondent upper dir.
 
 ### Filesystem specific
 
-- `/etc/media-automount.d/<FSTYPE>`
-- `/usr/local/lib/media-automount.d/<FSTYPE>`
-- `/usr/lib/media-automount.d/<FSTYPE>`
+- `/etc/media-automount.d/<FSTYPE>.conf`
+- `/usr/local/lib/media-automount.d/<FSTYPE>.conf`
+- `/usr/lib/media-automount.d/<FSTYPE>.conf`
 
 ```text
-# /etc/media-automount.d/btrfs
+# /etc/media-automount.d/btrfs.conf
 FSOPTIONS=noatime,lazytime,commit=120,discard=async,compress-force=zstd:1,space_cache=v2
 ```
 
@@ -72,18 +72,18 @@ Add it to `/etc/fstab` with the `noauto` option.
 
 #### ... exclude a type of filesystem?
 
-Create a symbolic link pointing at `/dev/null` in `/etc/automounts.d/<FSTYPE>`
+Create a symbolic link pointing at `/dev/null` in `/etc/automounts.d/<FSTYPE>.conf`
 
 ```shell
-sudo ln -s /dev/null /etc/media-automount.d/ntfs
+sudo ln -s /dev/null /etc/media-automount.d/ntfs.conf
 ```
 
 #### ... deactivate it completely?
 
-Create a symbolic link pointing at `/dev/null` in `/etc/automounts.d/_all`
+Create a symbolic link pointing at `/dev/null` in `/etc/automounts.d/_all.conf`
 
 ```shell
-sudo ln -s /dev/null /etc/media-automount.d/_all
+sudo ln -s /dev/null /etc/media-automount.d/_all.conf
 ```
 
 ### Why my partition is not getting mounted?
