@@ -42,6 +42,28 @@ BTRFS and ext4 (by default).
 
 ## Configuration
 
+The generator tries to follow Systemd overriding convection.
+
+Upper directories override lower ones. Lower directories should be used
+by vendors to set default configuration, whereas upper ones should be left for the system
+administrator.
+
+To disable a vendor configuration, you can create a symlink pointing to `/dev/null`
+in its correspondent upper dir.
+
+### Filesystem specific
+
+- `/etc/media-automount.d/<FSTYPE>`
+- `/usr/local/lib/media-automount.d/<FSTYPE>`
+- `/usr/lib/media-automount.d/<FSTYPE>`
+
+```text
+# /etc/media-automount.d/btrfs
+FSOPTIONS=noatime,lazytime,commit=120,discard=async,compress-force=zstd:1,space_cache=v2
+```
+
+## FAQ
+
 ### How can I...
 
 #### ... exclude a specific partition?
