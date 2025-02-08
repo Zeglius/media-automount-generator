@@ -34,7 +34,7 @@ DESTDIR=/usr/local ./install uninstall
 
 ### Where are my partitions mounted?
 
-At `/media/<Partition UUID>`.
+At `/media/media-automount/<Partition UUID>`.
 
 ### What filesystems does this thing support?
 
