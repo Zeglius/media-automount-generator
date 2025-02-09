@@ -60,6 +60,36 @@ get_filesystem_conf() {
     done
 }
 
+# Check if a device is in fstab.
+#
+# Params:
+#   $1 - Tag of device, see findfs(8)
+#
+# Status code:
+#   0 - The device was found in /etc/fstab
+#   1 - The device was not found in /etc/fstab
+is_in_fstab() {
+    local tag _what _
+    tag=${1:?}
+
+    [[ ! -e /etc/fstab ]] && die "/etc/fstab does not exist"
+
+    # Check if _cache_fstab is set, otherwise populate it
+    if [[ ! -v _cache_fstab ]] >/dev/null 2>&1; then
+        declare -ga _cache_fstab=()
+        while read -r _what _ _ _ _ _; do
+            [[ $_what =~ ^#.* ]] && continue
+            # shellcheck disable=SC2207
+            _cache_fstab+=($(findfs "$_what" 2>/dev/null))
+        done </etc/fstab
+    fi
+    # Check if the given tag is listed in _cache_fstab
+    if [[ " ${_cache_fstab[*]} " = *"$tag"* ]]; then
+        return 0
+    fi
+    return 1
+}
+
 trap '_on_err' ERR
 
 #### endregion
@@ -81,7 +111,7 @@ global_conf_file=$(get_filesystem_conf _all)
 # Iterate in a list of partitions
 for dev in $(lsblk -n --shell --output PATH --filter 'TYPE == "part"'); do
     # Check if the device is already set for mounting, and if is, skip it
-    if findmnt "$dev" &>/dev/null; then
+    if is_in_fstab "$dev"; then
         log "$dev: device is already mounted. Skipping..."
         continue
     fi
