@@ -42,7 +42,7 @@ BTRFS and ext4 (by default).
 
 ## Configuration
 
-The generator tries to follow Systemd overriding convection.
+The generator tries to follow Systemd overriding convention.
 
 Upper directories override lower ones. Lower directories should be used
 by vendors to set default configuration, whereas upper ones should be left for the system
