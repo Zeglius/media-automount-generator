@@ -5,6 +5,11 @@ In inspiration of [Ferk/udev-media-automount](https://github.com/Ferk/udev-media
 ## Installation
 
 ```shell
+git clone --depth=1 https://github.com/Zeglius/media-automount-generator
+cd ./media-automount-generator
+```
+
+```shell
 ./install.sh
 ```
 
