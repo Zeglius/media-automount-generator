@@ -116,6 +116,12 @@ for dev in $(lsblk -n --shell --output PATH --filter 'TYPE == "part"'); do
         continue
     fi
 
+    # Ensure we are not dealing with LUKS or LVM devices
+    if [[ $dev == /dev/mapper/* ]]; then
+        log "$dev: device might be LUKS or LVM. Skipping..."
+        continue
+    fi
+
     # Check if is removable, and if so, skip it
     parent_dev=$(lsblk -n --inverse --output=NAME --filter='TYPE == "disk"' "$dev" | tail -1)
     if [[ $(</sys/block/"$parent_dev"/removable) -eq 1 ]]; then
