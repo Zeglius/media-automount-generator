@@ -109,7 +109,7 @@ fi
 global_conf_file=$(get_filesystem_conf _all)
 
 # Iterate in a list of partitions
-for dev in $(lsblk -n --shell --output PATH --filter 'TYPE == "part"'); do
+for dev in $(systemd-mount --list --no-pager --no-legend --full | cut -d' ' -f1); do
     # Check if the device is already set for mounting, and if is, skip it
     if is_in_fstab "$dev"; then
         log "$dev: device is already mounted. Skipping..."
