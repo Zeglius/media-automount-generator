@@ -7,6 +7,13 @@
 
 
 
+## [0.2.6](https://github.com/Zeglius/media-automount-generator/compare/v0.2.5...v0.2.6) (2025-03-01)
+
+
+### Bug Fixes
+
+* **installer:** Malformed install call ([#8](https://github.com/Zeglius/media-automount-generator/issues/8)) ([1ea88d3](https://github.com/Zeglius/media-automount-generator/commit/1ea88d3bb219ccf4cfa53036dd245592c7c62100))
+
 ## [0.2.5](https://github.com/Zeglius/media-automount-generator/compare/v0.2.4...v0.2.5) (2025-03-01)
 
 
