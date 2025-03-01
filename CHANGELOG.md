@@ -7,6 +7,13 @@
 
 
 
+## [0.2.5](https://github.com/Zeglius/media-automount-generator/compare/v0.2.4...v0.2.5) (2025-03-01)
+
+
+### Bug Fixes
+
+* Remove typo ([#6](https://github.com/Zeglius/media-automount-generator/issues/6)) ([2b18867](https://github.com/Zeglius/media-automount-generator/commit/2b1886748dfa7f031d4c22ce4d81d26791b8e2b6))
+
 ## [0.2.4](https://github.com/Zeglius/media-automount-generator/compare/v0.2.3...v0.2.4) (2025-03-01)
 
 
