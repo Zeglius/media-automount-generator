@@ -117,7 +117,7 @@ for dev in $(systemd-mount --list --no-pager --no-legend --full | cut -d' ' -f1)
     fi
 
     # Ensure we are not dealing with LUKS or LVM devices
-    if [[ $dev == /dev/mapper/* ]]; then
+    if [[ $dev == /dev/mapper/* || $dev =~ /dev/dm-[[:digit:]] ]]; then
         log "$dev: device might be LUKS or LVM. Skipping..."
         continue
     fi
