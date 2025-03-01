@@ -7,6 +7,14 @@
 
 
 
+## [0.2.4](https://github.com/Zeglius/media-automount-generator/compare/v0.2.3...v0.2.4) (2025-03-01)
+
+
+### Bug Fixes
+
+* Add /dev/dm-X LVM devices to be filtered out ([#5](https://github.com/Zeglius/media-automount-generator/issues/5)) ([1bbae4e](https://github.com/Zeglius/media-automount-generator/commit/1bbae4e10fa3041ce890fc865f5cb5e5c4336f69))
+* Use systemd-mount --list to fetch partition devices ([#2](https://github.com/Zeglius/media-automount-generator/issues/2)) ([9e0e805](https://github.com/Zeglius/media-automount-generator/commit/9e0e80562953e91334c8199321db35e0fa4a8eae))
+
 ## [0.2.2](https://github.com/Zeglius/media-automount-generator/compare/v0.2.1...v0.2.2) (2025-02-09)
 
 
@@ -36,6 +44,3 @@
 ### Features
 
 * Set mountpoints under '/media/media-automount' ([284c1d6](https://github.com/Zeglius/media-automount-generator/commit/284c1d63872f37a48d0d975c38819041f20569d1))
-
-
-
