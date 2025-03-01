@@ -15,7 +15,7 @@ ACTION=${1:-install}
 case $ACTION in
 install)
     $SUDOIF install -Dm755 -t "$DESTDIR"/lib/media-automount.d ./media-automount.d/*
-    $SUDOIF install -Dm755 -t "$DESTDIR"/lib/systemd/system-generators/media-automount-generator ./media-automount-generator
+    $SUDOIF install -Dm755 -t "$DESTDIR"/lib/systemd/system-generators ./media-automount-generator
     ;;
 
 uninstall)
