@@ -120,7 +120,7 @@ OPER_UDEV() {
     readonly dev=${1:?}
 
     # Assert dev path matches '/dev/*', just to be sure
-    if [[ ! $dev != /dev/* ]]; then
+    if [[ $dev != /dev/* ]]; then
         log "$dev: Device does not match pattern '/dev/*'. Aborting..."
         exit 1
     fi
