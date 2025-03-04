@@ -7,7 +7,7 @@ exec 2> >(printf '%s: ' "$(date)" "$(</dev/stdin)" | tee -ia log.txt >&2)
 cd "$(dirname "$0")" || exit 1
 
 DESTDIR=${DESTDIR:-/usr}
-install_locs="media-automount-generator $DESTDIR/lib/udev/media-automount-udev
+install_locs="media-automount-generator /usr/lib/udev/media-automount-udev
               60-media-automount.rules /etc/udev/rules.d/60-media-automount.rules
               media-automount.d $DESTDIR/lib/media-automount.d"
 
