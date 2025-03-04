@@ -161,7 +161,7 @@ OPER_UDEV() {
         --no-block \
         ${FSOPTIONS:+-o "$FSOPTIONS"} \
         ${FSTYPE:+-t $FSTYPE} \
-        "$dev" MOUNTDIR_PARENT/"${ID_FS_UUID:?Missing ID_FS_UUID env var from udev}" >(log "$dev: $(</dev/stdin)") 2>&1
+        "$dev" MOUNTDIR_PARENT/"${ID_FS_UUID:?Missing ID_FS_UUID env var from udev}" > >(log "$dev: $(</dev/stdin)") 2>&1
 }
 
 #@entrypoint
