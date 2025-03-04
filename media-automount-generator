@@ -125,6 +125,13 @@ OPER_UDEV() {
         exit 1
     fi
 
+    # Check if we are disabling with a /dev/null symlink
+    local _g; _g=$(get_filesystem_conf _all)
+    if [[ $(realpath "$_g") == /dev/null ]]; then
+        log "$dev: /dev/null symlink at $_g. Exiting..."
+        exit 0
+    fi && unset -v _g
+
     # We are using udev rules to filter out removable/invalid devices.
 
     # Check if the dev is listed in fstab
