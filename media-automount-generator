@@ -134,11 +134,11 @@ OPER_UDEV() {
     fi
 
     # Search for a config file matching the partition filesystem
-    local config_file
-    config_file="$(get_filesystem_conf "${ID_FS_TYPE:?Missing ID_FS_TYPE env var from udev}")"
+    local conf_file
+    conf_file="$(get_filesystem_conf "${ID_FS_TYPE:?Missing ID_FS_TYPE env var from udev}")"
 
     # Handle config_file readability
-    case $(realpath "$config_file") in
+    case $(realpath "$conf_file") in
     "")
         log "$dev: Config for filesystem $ID_FS_TYPE was not found"
         exit 0;;
