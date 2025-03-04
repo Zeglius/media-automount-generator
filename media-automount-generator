@@ -102,6 +102,11 @@ trap '_on_err' ERR
 #
 # The script should be placed at '/usr/lib/udev/media-automount-udev'.
 OPER_UDEV() {
+    exec 2> >(tee -ia /tmp/media-automount-udev.log 2>&1)
+
+    log() {
+        echo "$*" >&2
+    }
     # Detect whenever we are a background process.
     #
     # If we are not, reexecute this script in a non-blocking fashion,
