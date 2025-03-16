@@ -1,4 +1,4 @@
-Systemd-generator for partition automounting for internal disks.
+Systemd-generator/udev rules for partition automounting for internal disks.
 
 In inspiration of [Ferk/udev-media-automount](https://github.com/Ferk/udev-media-automount).
 
@@ -10,6 +10,12 @@ cd ./media-automount-generator
 ```
 
 ```shell
+# Run only one of them
+
+# udev mode (recommended)
+./install_udev.sh
+
+# Systemd-generator mode
 ./install.sh
 ```
 
