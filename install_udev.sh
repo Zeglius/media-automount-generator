@@ -2,14 +2,12 @@
 
 set -euo pipefail
 
-exec 2> >(printf '%s: ' "$(date)" "$(</dev/stdin)" | tee -ia log.txt >&2)
-
 cd "$(dirname "$0")" || exit 1
 
 DESTDIR=${DESTDIR:-/usr}
-install_locs="media-automount-generator /usr/lib/udev/media-automount-udev
-              60-media-automount.rules /etc/udev/rules.d/60-media-automount.rules
-              media-automount.d $DESTDIR/lib/media-automount.d"
+install_locs="src/99-ublueos-udisks-automount.rules /etc/polkit-1/rules.d/99-ublueos-udisks-automount.rules
+              src/ublueos-udisks-automount-generator $DESTDIR/lib/systemd/user-generators/ublueos-udisks-automount-generator
+              src/mount_options.conf /etc/udisks2/mount_options.conf"
 
 placeIn() {
     local src=${1:?}
@@ -20,14 +18,14 @@ placeIn() {
         return 1
     fi
     mkdir -vp "$(dirname "$dest")"
-    cp -vTrd "$src" "$dest"
+    cp -vTrdb "$src" "$dest"
 }
 
 if [[ $EUID -ne 0 ]]; then
     echo >&2 "WARNING: you might lack permissions to write to the directories. Try with 'sudo' if doesnt work."
 fi
 
-ACTION=${1:-install}
+ACTION="${1:-}"
 case $ACTION in
 install)
     while read -r _k _v; do
@@ -39,6 +37,10 @@ uninstall | remove | rm | delete)
     while read -r _ _v; do
         rm -vr "$_v"
     done <<<"$install_locs"
+    ;;
+"")
+    echo >&2 "Available actions: install, uninstall, remove, rm, delete"
+    exit 0
     ;;
 *)
     echo >&2 "Action no supported: $ACTION"
