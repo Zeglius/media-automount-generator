@@ -1,1 +1,0 @@
-ACTION=="add", SUBSYSTEM=="block", ATTRS{removable}=="0", KERNEL=="sd[a-z][0-9]|nvme[0-9]n[0-9]p[0-9]", ENV{DEVTYPE}=="partition", RUN+="/usr/bin/systemd-run --no-block --collect -E MAU_ISBACKGROUND=1 -E ID_FS_TYPE -E ID_FS_UUID /usr/lib/udev/media-automount-udev $env{DEVNAME}"
