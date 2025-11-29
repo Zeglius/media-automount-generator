@@ -7,6 +7,18 @@
 
 
 
+## [1.0.0](https://github.com/Zeglius/media-automount-generator/compare/v0.2.6...v1.0.0) (2025-11-29)
+
+
+### ⚠ BREAKING CHANGES
+
+* Use systemd user generators ([#12](https://github.com/Zeglius/media-automount-generator/issues/12))
+
+### Features
+
+* Add udev operation mode ([#10](https://github.com/Zeglius/media-automount-generator/issues/10)) ([23f8c50](https://github.com/Zeglius/media-automount-generator/commit/23f8c50a613c4ca1812ee97caa7f36b440f8ae42))
+* Use systemd user generators ([#12](https://github.com/Zeglius/media-automount-generator/issues/12)) ([138a578](https://github.com/Zeglius/media-automount-generator/commit/138a5782fe3e022b4e785bb31cfea3806ad05dc8))
+
 ## [0.2.6](https://github.com/Zeglius/media-automount-generator/compare/v0.2.5...v0.2.6) (2025-03-01)
 
 
