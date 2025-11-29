@@ -25,7 +25,7 @@ if [[ $EUID -ne 0 ]]; then
     echo >&2 "WARNING: you might lack permissions to write to the directories. Try with 'sudo' if doesnt work."
 fi
 
-ACTION="${1:-}"
+ACTION="${1:-install}"
 case $ACTION in
 install)
     while read -r _k _v; do
